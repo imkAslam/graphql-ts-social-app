@@ -35,18 +35,7 @@ function CommentModal() {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const [createPost, { loading }] = useMutation(Mutations.CREATE_POST, {
-    update(proxy, result) {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const data = proxy.readQuery({
-        query: Queries.GET_POSTS,
-      });
-
-      console.log("data", data);
-      console.log("result", result);
-      // data.getPosts = [result.data.createPost, ...data.getPosts];
-
-      // proxy.writeQuery({ query: Queries.GET_POSTS, data });
-    },
+    refetchQueries: [Queries.GET_POSTS],
     onError(err) {
       console.warn("like-post-error", err.graphQLErrors[0].message);
       Toaster({
